@@ -1,0 +1,28 @@
+@startuml devicesSpecs
+skinparam linetype polyline
+skinparam linetype ortho
+title: Спецификация устройств
+namespace Устройства {
+class DevicesSpetification
+    class Type{
+        Name : string
+        ID : int
+        Description: string
+    }
+    class Subtype{
+        Name : string
+        ID : int
+        Description: string
+    }
+    <> Spec
+    DevicesSpetification *-down- Type
+    Type *-down- Subtype
+
+
+    DevicesSpetification *-- Spec
+    Subtype *-right- Spec 
+
+    (DevicesSpetification, Spec) .right. (Subtype, Spec)
+}
+
+@enduml
