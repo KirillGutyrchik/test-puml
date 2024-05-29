@@ -24,5 +24,4 @@ class DevicesSpetification
 
     (DevicesSpetification, Spec) .right. (Subtype, Spec)
 }
-
 @enduml
