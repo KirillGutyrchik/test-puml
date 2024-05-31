@@ -8,6 +8,6 @@ jobs:
       - name: generate and commit diagrams
         uses: abekoh/commit-plantuml-action@1.0.3
         with:
-          botEmail: ${{ secrets.BOT_EMAIL }}
+          botEmail: 'bot@noreply.github.com'
           botGithubToken: ${{ secrets.GITHUB_TOKEN }}
           enableReviewComment: true
