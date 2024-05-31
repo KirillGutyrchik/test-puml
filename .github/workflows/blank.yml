@@ -4,10 +4,7 @@ jobs:
   generate_plantuml:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: generate and commit diagrams
-        uses: abekoh/commit-plantuml-action@1.0.3
-        with:
-          botEmail: 'bot@noreply.github.com'
-          botGithubToken: ${{ secrets.GITHUB_TOKEN }}
-          enableReviewComment: true
+      - uses: actions/checkout@v4
+
+      - name: C4Builder
+        uses: clippings/c4builder-action@v1
