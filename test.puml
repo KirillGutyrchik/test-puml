@@ -13,7 +13,7 @@ skinparam packageBorderThickness 0.5
 
 
 namespace DevicesSpetification {
-    class SpecsA as "Specification" <<(S, #ff7700)>> {
+    class SpecsA as "Specifications" <<(S, #ff7700)>> {
     }
     class SpecsB as "Specification" <<(S, #ff7700)>> {
     }
