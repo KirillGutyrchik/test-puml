@@ -1,6 +1,7 @@
 @startuml devicesSpecs
 title: Спецификация устройств
 
+
 skinparam linetype polyline
 skinparam linetype ortho
 
