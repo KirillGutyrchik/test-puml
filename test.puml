@@ -1,9 +1,29 @@
 @startuml devicesSpecs
+title: Спецификация устройств
+
 skinparam linetype polyline
 skinparam linetype ortho
-title: Спецификация устройств
-namespace Устройства {
-class DevicesSpetification
+
+skinparam note {
+    BackgroundColor Transparent
+    BorderColor Transparent
+    FontSize 12
+}
+skinparam packageBorderThickness 0.5
+
+
+namespace DevicesSpetification {
+    class SpecsA as "Specification" <<(S, #ff7700)>> {
+    }
+    class SpecsB as "Specification" <<(S, #ff7700)>> {
+    }
+
+    note "<<Subset of>>" as Subset
+    note "<<Subset of>>" as SubsetB
+    note "          " as SubsetsAligment
+    
+    class DS as "DevicesSpetification" {
+    }
     class Type{
         Name : string
         ID : int
@@ -14,14 +34,101 @@ class DevicesSpetification
         ID : int
         Description: string
     }
-    <> Spec
-    DevicesSpetification *-down- Type
-    Type *-down- Subtype
 
-
-    DevicesSpetification *-- Spec
-    Subtype *-right- Spec 
-
-    (DevicesSpetification, Spec) .right. (Subtype, Spec)
+    /'
+    together {
+        class DS
+        class Type
+        class Subtype
+    }
+    '/
 }
+
+namespace DevicesSpetification.Builder {
+    Class DSB as "DevicesSpecificationBuilder" {
+        {static} + Create() : DevicesSpetification
+        + AddSharedSpecification() : Specification
+        + AddType() : TypeBuilder
+        + Buid() : DevicesSpetification
+    }
+    class TB as "TypeBuilder" {
+        - string name
+        - int id
+        - string description
+        + AddSubtype() : SubtypeBuilder
+        + Buid() : Type
+    }
+    class STB as "SubtypeBuilder" {
+        - string name
+        - int id
+        - string description
+        + AddSpecification() : void
+        + Buid() : Subtype
+    }
+}
+
+package Lua {
+    annotation Init as "Init(DevicesSpecificcationBuilder)"{
+    }
+
+    package Data <<Database>> {
+    }
+}
+
+
+DS "1   " *-- "1..n  " Type
+Type "1  " *-- "1..n  " Subtype
+    
+DSB "1   " o-- "1..n  " TB
+TB ..> STB : <<Build>>
+DSB ..> TB : <<Build>>
+TB "1   " o-- "1..n  " STB
+
+/'
+Specs "n" -r-* "1" DS
+Specs "0..n" -* "1" Subtype
+'/
+/'
+(Specs, DS) <.d. SubSet
+SubSet .l. (Specs, Subtype)
+'/
+
+DS <. DSB : <<Build>>
+Type <. TB : <<Build>>
+Subtype <. STB : <<Build>>
+
+DS "1" *- "n" SpecsA
+SpecsA "n" -o "1" DSB
+Subtype "1" *- "0..n" SpecsB
+SpecsB "0..n" -o "1" STB
+
+
+namespace DevicesSpetification {
+    (DS, SpecsA) <.. Subset
+    Subset .. (Subtype, SpecsB) 
+
+    (SpecsA, DSB) <.. SubsetB
+    SubsetB .. (SpecsB, STB) 
+
+    Subset -r[hidden]- SubsetsAligment
+    SubsetB -l[hidden]- SubsetsAligment
+}
+
+/'
+SpecsA <.. SpecsB : "<<subset of>>" 
+'/
+
+
+Init <- Data
+Init .l.> DSB 
+Init ..> TB 
+Init ..> STB
+
+hide SpecsA methods
+hide SpecsA fields
+hide SpecsB methods
+hide SpecsB fields
+
+hide Init methods
+hide Init fields
 @enduml
