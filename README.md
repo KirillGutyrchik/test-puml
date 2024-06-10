@@ -4,4 +4,5 @@
 ![Diagram Image Link](test.svg)
 
 
-<!--![Diagram Image Link](./puml/level_1_system_view.puml)-->
+<!-- plantaznik:./test.puml -->
+(this line will be replaced)
