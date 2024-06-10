@@ -10,10 +10,11 @@ jobs:
       with:
         ref: ${{ github.event.pull_request.head.sha }}
         fetch-depth: 1
-    - name: plantuml
-      id: plantuml
-      uses: grassedge/generate-plantuml-action@v1.5
-      with:
-        message: "Render PlantUML files"
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: install cargo
+      run: curl -sSf https://static.rust-lang.org/rustup.sh | sh
+    - name: check cargo
+      run: echo cargo --version
+    - name: install plantaznik
+      run: cargo install plantaznik
+    - name: generate uml
+      run: plantaznik README.md
